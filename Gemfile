@@ -16,4 +16,5 @@ gem 'capybara'
 gem 'require_all'
 gem 'faraday'
 gem 'bcrypt'
+gem 'dotenv'
 
