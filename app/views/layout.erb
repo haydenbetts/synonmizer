@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+  </head>
+  <header>
+
+    <a href="/signup"> Sign Up! </a>
+
+    <% if logged_in? %>
+      <a href="/logout"> Log out! </a>
+    <% else %>
+      <a href="/login"> Log in! </a>
+    <% end %>
+
+  </header>
+  <body>
+    <%= yield %>
+  </body>
+
+</html>
