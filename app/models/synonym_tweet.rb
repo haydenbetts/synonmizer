@@ -3,8 +3,8 @@ require 'engtagger'
 class SynonymTweet < ActiveRecord::Base
     belongs_to :tweet
   
-    def self.random_nouns_and_adjectives(text, num)
-        possible_words = parsed_nouns_and_adjectives(text)
+    def self.random_nouns(text, num)
+        possible_words = parsed_nouns(text)
         
         selected_words = []
         
@@ -15,25 +15,18 @@ class SynonymTweet < ActiveRecord::Base
         selected_words
     end
 
-    def self.parsed_nouns_and_adjectives(text)
+    def self.parsed_nouns(text)
+        nouns = tag_nouns(text)
 
-        adjs, nouns = tag_nouns_and_adjectives(text)
-
-        nouns_and_adjectives = []
-
-        adjs.each {|key, value| nouns_and_adjectives << key.downcase}
-        nouns.each {|key, value| nouns_and_adjectives << key.downcase}
-
-        nouns_and_adjectives
+        nouns.collect {|key, value| key.downcase}
     end
 
-    def self.tag_nouns_and_adjectives(text)
+    def self.tag_nouns(text)
         tgr = EngTagger.new
         tagged = tgr.add_tags(text)
-        adjs = tgr.get_adjectives(tagged)
         nouns = tgr.get_nouns(tagged)
 
-        return adjs, nouns
+        return nouns
     end
 
   end
