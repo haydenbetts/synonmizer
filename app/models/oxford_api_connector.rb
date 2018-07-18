@@ -2,6 +2,10 @@ require 'faraday'
 
 class OxfordAPIConnector
     
+    def error
+        @error
+    end
+
     def parsed_senses
         @parsed_senses
     end
@@ -21,16 +25,15 @@ class OxfordAPIConnector
 
             senses_hash = body["results"][0]["lexicalEntries"][0]["entries"][0]["senses"]
 
-            parsed_senses = {}
+            self.parsed_senses = {}
 
             senses_hash.each do |single_sense| 
                 sense_name = single_sense["examples"][0]["text"]
-                parsed_senses[sense_name] = single_sense["synonyms"].collect do |synonym|
+                self.parsed_senses[sense_name] = single_sense["synonyms"].collect do |synonym|
                     synonym["text"]
                 end
             end
     
-            parsed_senses
         
         rescue NoMethodError
             @error = "No synonyms found"
